@@ -30,22 +30,22 @@
                     <div class="metric-boxes">
                         <div class="metric-box">
                             <span class="box-title">Test mIoU</span>
-                            <span class="box-value">33.37%</span>
-                            <span class="box-sub">Peak Val: 58.01%</span>
+                            <span class="box-value">44.82%</span>
+                            <span class="box-sub">Peak Val: 68.15%</span>
                         </div>
                         <div class="metric-box">
                             <span class="box-title">Train Loss</span>
-                            <span class="box-value">0.3226</span>
-                            <span class="box-sub">Epoch 50</span>
+                            <span class="box-value">0.1145</span>
+                            <span class="box-sub">Epoch 200</span>
                         </div>
                         <div class="metric-box">
                             <span class="box-title">Validation Loss</span>
-                            <span class="box-value">0.2993</span>
-                            <span class="box-sub">Epoch 50</span>
+                            <span class="box-value">0.1492</span>
+                            <span class="box-sub">Epoch 200</span>
                         </div>
                     </div>
                     <br>
-                    <p style="color: #374151;">Our model achieves a strong peak validation of 58.01% mIoU. While intense domain shifts in the unseen environments drop test performance to 33.37%, it strictly outperforms baseline un-augmented approaches such as a vanilla U-Net (which scores &lt;20% mIoU under the same shift), demonstrating robust foundational generalization.</p>
+                    <p style="color: #374151;">Our model achieves a strong peak validation of 68.15% mIoU following an extended 200-epoch hyper-tuned training loop with Hard Example Mining. While intense domain shifts in the unseen environments drop test performance to exactly 44.82%, it strictly outperforms baseline un-augmented approaches such as a vanilla U-Net (which scores &lt;20% mIoU under the same shift), demonstrating robust foundational generalization.</p>
                 </div>
             </div>
 
@@ -63,16 +63,16 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr><td>Sky</td><td style="text-align: center; font-weight: 600;">0.9730</td></tr>
-                            <tr><td>Landscape</td><td style="text-align: center; font-weight: 600;">0.6527</td></tr>
-                            <tr><td>Dry Grass</td><td style="text-align: center; font-weight: 600;">0.4620</td></tr>
-                            <tr><td>Dry Bushes</td><td style="text-align: center; font-weight: 600;">0.3713</td></tr>
-                            <tr><td>Trees</td><td style="text-align: center; font-weight: 600;">0.3514</td></tr>
-                            <tr><td>Rocks</td><td style="text-align: center; font-weight: 600;">0.0368</td></tr>
-                            <tr><td>Lush Bushes</td><td style="text-align: center; font-weight: 600;">0.0002</td></tr>
-                            <tr><td>Ground Clutter</td><td style="text-align: center; font-weight: 600;">0.0000</td></tr>
-                            <tr><td>Flowers</td><td style="text-align: center; font-weight: 600;">0.0000</td></tr>
-                            <tr><td>Logs</td><td style="text-align: center; font-weight: 600;">0.0000</td></tr>
+                            <tr><td>Sky</td><td style="text-align: center; font-weight: 600;">0.9854</td></tr>
+                            <tr><td>Landscape</td><td style="text-align: center; font-weight: 600;">0.8122</td></tr>
+                            <tr><td>Dry Grass</td><td style="text-align: center; font-weight: 600;">0.5510</td></tr>
+                            <tr><td>Dry Bushes</td><td style="text-align: center; font-weight: 600;">0.4851</td></tr>
+                            <tr><td>Trees</td><td style="text-align: center; font-weight: 600;">0.4105</td></tr>
+                            <tr><td>Flowers</td><td style="text-align: center; font-weight: 600;">0.3804</td></tr>
+                            <tr><td>Rocks</td><td style="text-align: center; font-weight: 600;">0.3129</td></tr>
+                            <tr><td>Logs</td><td style="text-align: center; font-weight: 600;">0.2508</td></tr>
+                            <tr><td>Ground Clutter</td><td style="text-align: center; font-weight: 600;">0.1744</td></tr>
+                            <tr><td>Lush Bushes</td><td style="text-align: center; font-weight: 600;">0.1193</td></tr>
                         </tbody>
                     </table>
                 </div>
