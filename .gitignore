@@ -17,3 +17,8 @@ Gaia_Hackathon_Report.pdf
 TerraVision_AI_Hackathon_Report.pdf
 Offroad_Segmentation_Training_Dataset/
 Offroad_Segmentation_testImages/
+
+# Auto-created
+dataset_stats.json
+*.tmp
+*.log

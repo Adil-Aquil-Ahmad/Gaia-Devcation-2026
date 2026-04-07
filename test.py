@@ -56,7 +56,20 @@ def main():
     with torch.no_grad():
         for images, masks, img_names in tqdm(test_loader, desc="Test Inference"):
             images, masks = images.to(device), masks.to(device)
-            outputs = model(images)
+            
+            if config.get('training', {}).get('use_tta', False):
+                outputs1 = model(images)
+                
+                images_hf = torch.flip(images, dims=[3])
+                outputs2_flipped = model(images_hf)
+                outputs2 = torch.flip(outputs2_flipped, dims=[3])
+                
+                prob1 = torch.softmax(outputs1, dim=1)
+                prob2 = torch.softmax(outputs2, dim=1)
+                outputs = (prob1 + prob2) / 2.0
+            else:
+                outputs = model(images)
+                
             preds = torch.argmax(outputs, dim=1)
             
             b_ious, b_miou = compute_iou(preds, masks, config['model']['num_classes'])

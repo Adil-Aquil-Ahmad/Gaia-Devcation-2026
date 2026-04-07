@@ -2,25 +2,47 @@ import torch
 import torch.nn as nn
 from segmentation_models_pytorch.losses import DiceLoss
 
+import torch.nn.functional as F
+
+class CustomFocalLoss(nn.Module):
+    def __init__(self, alpha=None, gamma=2.0, label_smoothing=0.05, reduction='mean'):
+        super().__init__()
+        self.alpha = alpha  # Class weights normalized relative to mean
+        self.gamma = gamma
+        self.label_smoothing = label_smoothing
+        self.reduction = reduction
+
+    def forward(self, logits, targets):
+        # ce_loss includes label smoothing and alpha weights
+        ce_loss = F.cross_entropy(
+            logits, targets, weight=self.alpha, 
+            reduction='none', label_smoothing=self.label_smoothing
+        )
+        # Compute p_t without weights/smoothing for the gamma scaling (focal scaling)
+        p_t = torch.exp(-F.cross_entropy(logits, targets, reduction='none'))
+        loss = ((1 - p_t) ** self.gamma) * ce_loss
+        
+        if self.reduction == 'mean':
+            return loss.mean()
+        return loss.sum()
+
 class HybridLoss(nn.Module):
     """
-    User requests: Loss = 0.5 * CrossEntropyLoss + 0.5 * DiceLoss
-    CrossEntropy improves pixel-wise classification.
-    DiceLoss improves segmentation overlap and directly boosts IoU.
+    Hybrid Loss = 0.5 * DiceLoss + 0.5 * FocalLoss
+    Uses normalized inverse-frequency class weights and label smoothing.
     """
-    def __init__(self, ce_weight=0.5, dice_weight=0.5):
+    def __init__(self, class_weights=None, focal_weight=0.5, dice_weight=0.5):
         super(HybridLoss, self).__init__()
-        self.ce_weight = ce_weight
+        self.focal_weight = focal_weight
         self.dice_weight = dice_weight
-        self.ce_loss = nn.CrossEntropyLoss()
+        
+        self.focal_loss = CustomFocalLoss(alpha=class_weights, gamma=2.0, label_smoothing=0.05)
         self.dice_loss = DiceLoss(mode='multiclass')
         
     def forward(self, logits, targets):
-        # logits shape: (B, C, H, W)
-        # targets shape: (B, H, W)
-        ce = self.ce_loss(logits, targets)
+        focal = self.focal_loss(logits, targets)
         dice = self.dice_loss(logits, targets)
-        return self.ce_weight * ce + self.dice_weight * dice
+        return self.focal_weight * focal + self.dice_weight * dice
 
 def compute_iou(preds, targets, num_classes):
     """

@@ -4,6 +4,7 @@ dataset:
   test_dir: "d:/GitHub/Gaia/Offroad_Segmentation_testImages"
   img_height: 512
   img_width: 512
+  dataset_stats_file: "dataset_stats.json"
 
 class_mapping:
   100: 0   # Trees
@@ -35,10 +36,12 @@ training:
   learning_rate: 0.0001
   weight_decay: 0.0001
   num_workers: 4
+  loss_type: "hybrid"
+  use_tta: true
 
 model:
   architecture: "deeplabv3plus"
-  backbone: "resnet50"
+  backbone: "efficientnet-b4"
   weights: "imagenet"
   in_channels: 3
   num_classes: 10
