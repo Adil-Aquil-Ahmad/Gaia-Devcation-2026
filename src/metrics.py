@@ -36,7 +36,7 @@ class HybridLoss(nn.Module):
         self.focal_weight = focal_weight
         self.dice_weight = dice_weight
         
-        self.focal_loss = CustomFocalLoss(alpha=class_weights, gamma=2.0, label_smoothing=0.05)
+        self.focal_loss = CustomFocalLoss(alpha=class_weights, gamma=2.0, label_smoothing=0.05) 
         self.dice_loss = DiceLoss(mode='multiclass')
         
     def forward(self, logits, targets):
